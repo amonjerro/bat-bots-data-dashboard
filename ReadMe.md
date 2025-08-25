@@ -8,6 +8,7 @@ This dashboard seeks to surface insights on how players are playing Bat Bots and
 
 The architecture for data capture is described in the diagram below. This is how we collected data during playtesting and early release.
 
+<img width="1423" height="702" alt="image" src="https://github.com/user-attachments/assets/1223d235-9f15-4ff6-a723-fee57b886422" />
 
 
 This dashboard is built using an MVC architecture approach; model classes match the records stored in the database, controller classes process instances of model classes to respond to requests that the Dashboard view generates.
