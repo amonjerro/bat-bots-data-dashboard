@@ -1,8 +1,13 @@
 # Game Development Dashboard
 
-This was a weekend project to turn a Python Jupyter Notebook report into a proper data dashboard for design and balancing purposes for the development of [Bat Bots](https://store.steampowered.com/app/3099010/Bat_Bots/).
+This was a weekend project to turn a Python Jupyter Notebook report into a proper data dashboard for design and balancing purposes for the development of [Bat Bots](https://store.steampowered.com/app/3099010/Bat_Bots/). It was made using Tkinter and the ttkbootsrap library for it, to spruce up the GUI design.
+
+![game data](https://github.com/user-attachments/assets/b2520d35-406d-4671-ba27-365bcab1af82)
+
+![player-data](https://github.com/user-attachments/assets/0f83dd08-34db-4e4d-93d3-7e8d6d0cdf44)
 
 This dashboard seeks to surface insights on how players are playing Bat Bots and how best to balance some of our quantitative achievements (score thresholds, bat stun numbers and so on). All data collected was anonymized play data that helped us better identify how to improve the game during development. No further or new data is being collected.
+
 
 ## Architecture
 
