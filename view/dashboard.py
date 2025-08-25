@@ -104,22 +104,26 @@ class Dashboard:
         ax_shot = fig.add_subplot(graphs[1,0])
         ax_pie = fig.add_subplot(graphs[1,1])
 
+        # Game Duration Distribution
         ax_hist.hist(duration_data, bins=30, color=self.clr.info)
         ax_hist.set_title("Game Duration Distribution", color="w")
         ax_hist.set_xlabel("Duration (seconds)", color="w")
         ax_hist.set_ylabel("Games", color="w")
         ax_hist.tick_params(colors="w")
 
+        # Game Mode Distribution
         ax_bar.bar(value_counts_game_modes.index, value_counts_game_modes.array, color=self.clr.info)
         ax_bar.set_title("Count of Games by Mode", color="w")
         ax_bar.set_ylabel("Games", color="w")
         ax_bar.tick_params(colors="w")
 
+        # Distribution of bats shot
         ax_shot.bar(bats_shot.index, bats_shot.array, color=self.clr.info)
         ax_shot.set_title("Count of Bats Shot By Type", color="w")
         ax_shot.set_ylabel("Bats", color="w")
         ax_shot.tick_params(colors="w")
         
+        # Player counts
         ax_pie.pie(player_counts.array, wedgeprops={"edgecolor":"w"}, labels=player_counts.index,
                    textprops={"color":"w"},autopct='%1.1f%%',
                    colors=[self.clr.primary, self.clr.secondary, self.clr.info, self.clr.dark])
@@ -132,7 +136,42 @@ class Dashboard:
         if len(self.player_data.records) == 0:
             # print("Empty player data")
             return
+        device_breakdown = self.player_data.get_column_value_count("device")
+        accuracy_data = self.player_data.get_column("accuracy")
+        score = self.player_data.get_column("score")
+        sensitivity = self.player_data.get_sensitivity()
+
+        fig = self.graphs[self.player_data.get_controller_identifier()]['figure']
+        graphs = fig.add_gridspec(2,2)
+        ax_hist = fig.add_subplot(graphs[0,0])
+        ax_devices = fig.add_subplot(graphs[0,1])
+        ax_accuracy = fig.add_subplot(graphs[1,0])
+        ax_sensitivity = fig.add_subplot(graphs[1,1])
+
+        ax_hist.hist(score / 1000, bins=30, color=self.clr.info)
+        ax_hist.set_title("Distribution of Score", color="w")
+        ax_hist.set_ylabel("Games", color="w")
+        ax_hist.set_xlabel("Score (1000s)", color="w")
+        ax_hist.tick_params(colors="w")
+
+        ax_devices.pie(device_breakdown.array, labels=device_breakdown.index, autopct='%1.1f%%',
+                       wedgeprops={"edgecolor":"w"}, textprops={"color":"w"},
+                       colors=[self.clr.primary, self.clr.secondary, self.clr.info, self.clr.dark])
+        ax_devices.set_title("Device Use Breakdown", color="w")
+
+        ax_accuracy.scatter(accuracy_data, score / 1000, color=self.clr.info)
+        ax_accuracy.set_title("Correlation between score and accuracy", color="w")
+        ax_accuracy.set_xlabel("Accuracy", color="w")
+        ax_accuracy.set_ylabel("Score (1000s)", color="w")
+        ax_accuracy.tick_params(colors="w")
         
+        ax_sensitivity.scatter(sensitivity["x"], sensitivity["y"], color=self.clr.info)
+        ax_sensitivity.set_title("Sensitivity distribution by axis", color="w")
+        ax_sensitivity.set_xlabel("X-Sensitivity", color="w")
+        ax_sensitivity.set_ylabel("Y-Sensitivity", color="w")
+        ax_sensitivity.tick_params(colors="w")
+
+        self.graphs[self.player_data.get_controller_identifier()]['canvas'].draw()
 
     ## Button Load Functions
     def on_load_player_data(self):

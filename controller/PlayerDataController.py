@@ -10,10 +10,14 @@ class PlayerDataController(DataController):
 
     def _setup_dataframe(self):
         self.data_frame = pd.DataFrame([r.to_dict() for r in self.records])
+        self.sensitivity_frame = pd.DataFrame([r.sensitivity for r in self.records])
 
     def load_data(self, data):
         self.clear_records()
         for i in data:
+            record = PlayerData(i)
+            if record.score == 0:
+                continue
             self.records.append(PlayerData(i))
         self._setup_dataframe()
 
@@ -29,3 +33,12 @@ class PlayerDataController(DataController):
     
     def get_controller_identifier(self):
         return CONTROLLERS.PLAYER
+    
+    def get_column_value_count(self, column):
+        return self.data_frame[column].value_counts()
+    
+    def get_column(self, column):
+        return self.data_frame[column]
+    
+    def get_sensitivity(self):
+        return self.sensitivity_frame
